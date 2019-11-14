@@ -29,7 +29,6 @@ import (
 	"github.com/jbvmio/kafkactl/cli/kafka"
 	"github.com/jbvmio/kafkactl/cli/x/out"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -100,17 +99,8 @@ func init() {
 }
 
 func initConfig() {
-	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
-	} else {
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".kafkactl")
-	}
+	cfgFile = "/etc/kafkactl/config.yaml"
+	viper.SetConfigFile(cfgFile)
 	viper.AutomaticEnv()
 	if err := viper.ReadInConfig(); err == nil {
 	}
